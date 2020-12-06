@@ -1,10 +1,11 @@
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const DB_URI: string = process.env.DB_URI || ''
-const DB_NAME: string = process.env.DB_NAME || ''
-const EMAIL: string = process.env.EMAIL || ''
-const EMAIL_PW: string = process.env.EMAIL_PW || ''
+const DB_NAME_LOCAL: string = process.env.DB_NAME_LOCAL || ''
 const PORT: string = process.env.PORT || '3000'
+const DB_PASSWORD: string = process.env.DB_PASSWORD || ''
+const NODE_ENV: string = process.env.NODE_ENV || 'development'
+const DB_USERNAME: string = process.env.DB_USERNAME || ''
+const DB_PRODUCTION_URL: string = process.env.DB_PRODUCTION_URL || ''
 
-export { DB_NAME, DB_URI, EMAIL, EMAIL_PW, PORT }
+export { DB_NAME_LOCAL, PORT, NODE_ENV, DB_PASSWORD, DB_USERNAME, DB_PRODUCTION_URL }
