@@ -1,9 +1,7 @@
 import "reflect-metadata";
-import { ApolloServer } from 'apollo-server-express';
-import express from 'express'
+import { ApolloServer, makeExecutableSchema } from 'apollo-server';
 import bodyParser from 'body-parser'
-import cors from "cors";
-
+import { settingsResolvers, settingsType } from './schema/settings-type'
 import { createConnection } from "typeorm";
 import { PORT, NODE_ENV, DB_NAME_LOCAL, DB_PASSWORD, DB_USERNAME, DB_PRODUCTION_URL } from '../config'
 import { Setting } from './entity/Setting'
@@ -25,15 +23,18 @@ createConnection({
   connection.runMigrations()
 }).catch(error => console.log(error));
 
+const schema = makeExecutableSchema({
+  typeDefs: [settingsType],
+  resolvers: [settingsResolvers],
+})
 
-const app = express();
+const server = new ApolloServer({
+  schema,
+  introspection: true,
+  playground: true,
+  context: ({ req }) => req,
+});
 
-
-// add apollo server.
-// add body parser.
-
-
-app.get('/', (req, res) => res.send('yay!'));
-app.listen(PORT, () => {
-  console.log(`⚡️Server is running at https://localhost:${PORT}`);
+server.listen({ port: PORT }).then(({ url }) => {
+  console.log(`🚀  Server ready at ${url}`);
 });
