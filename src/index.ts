@@ -3,16 +3,17 @@ import { ApolloServer, makeExecutableSchema } from 'apollo-server';
 import bodyParser from 'body-parser'
 import { settingsResolvers, settingsType } from './schema/settings-type'
 import { createConnection } from "typeorm";
-import { PORT, NODE_ENV, DB_NAME_LOCAL, DB_PASSWORD, DB_USERNAME, DB_PRODUCTION_URL } from '../config'
+import { PORT, NODE_ENV, DB_NAME_LOCAL, DB_PASSWORD, DB_USERNAME, DB_PRODUCTION_URL, DATABASE_URL } from '../config'
 import { Setting } from './entity/Setting'
 
 createConnection({
   type: "postgres",
-  host: NODE_ENV === 'production' ? DB_PRODUCTION_URL : 'localhost',
+  //host: NODE_ENV === 'production' ? DB_PRODUCTION_URL : 'localhost',
   port: 5432,
-  username: DB_USERNAME,
-  password: DB_PASSWORD,
-  database: DB_NAME_LOCAL,
+  url: DATABASE_URL,
+  // username: DB_USERNAME,
+  // password: DB_PASSWORD,
+  //database: DB_NAME_LOCAL,
   entities: [
     Setting,
   ],
