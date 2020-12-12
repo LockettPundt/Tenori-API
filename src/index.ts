@@ -18,10 +18,10 @@ createConnection({
   ],
   synchronize: true,
   logging: false
-}).then(async connection => {
-  console.log(`connection ---->`)
-  connection.runMigrations()
-}).catch(error => console.log(error));
+})
+  .then(async connection => {
+    console.log(`connected to postgres!`)
+  }).catch(error => console.log(error));
 
 const schema = makeExecutableSchema({
   typeDefs: [settingsType],
@@ -30,8 +30,6 @@ const schema = makeExecutableSchema({
 
 const server = new ApolloServer({
   schema,
-  introspection: true,
-  playground: true,
   context: ({ req }) => req,
 });
 
