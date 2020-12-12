@@ -13,6 +13,9 @@ export class Setting {
   @Column({ nullable: true })
   createdAt!: Date;
 
+  @Column({ nullable: true })
+  updatedAt!: Date;
+
   @Column()
   value!: string;
 

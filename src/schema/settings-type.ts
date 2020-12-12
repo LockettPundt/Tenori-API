@@ -8,6 +8,7 @@ export const settingsType = gql`
     id: ID
     name: String
     createdAt: String
+    updatedAt: String
     value: String
   }
   
@@ -27,14 +28,22 @@ export const settingsType = gql`
   
   type Mutation {
     createNewSetting(setting: SettingInput): CreateNewSettingResponse!
+    updateSetting(id: ID, setting: SettingInput): Setting
   }
 `
 
-export interface Setting {
-  id?: string,
-  name?: string,
+export interface CreateNewSetting {
+  name: string,
   value: string,
   createdAt: Date,
+}
+
+export interface Setting {
+  id: string,
+  name: string,
+  value: string,
+  createdAt: Date,
+  updatedAt?: Date,
 }
 
 export const settingsResolvers: IResolvers = {
@@ -53,13 +62,24 @@ export const settingsResolvers: IResolvers = {
   Mutation: {
     createNewSetting: async (obj, { setting: { value, name } }, context) => {
       const settingRepository: any = getRepository(SettingEntity)
-      const newSetting: Setting = {
+      const newSetting: CreateNewSetting = {
         value,
         name,
         createdAt: new Date(),
       }
       const result = await settingRepository.save(newSetting)
       return { setting: result }
-    }
+    },
+    updateSetting: async (obj, { id, setting: { value, name } }, context) => {
+      const connection = getConnection()
+      await connection.createQueryBuilder()
+        .update(SettingEntity)
+        .set({ name, value, updatedAt: new Date() })
+        .where("id = :id", { id })
+        .execute();
+      const [updatedSetting] = await connection.query('SELECT * FROM setting WHERE id = $1', [id])
+      return updatedSetting
+    },
+    // getrandomsetting =>
   },
 }
