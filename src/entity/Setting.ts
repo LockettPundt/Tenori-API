@@ -5,12 +5,12 @@ import { Entity, Column, PrimaryGeneratedColumn, Timestamp } from "typeorm";
 export class Setting {
 
   @PrimaryGeneratedColumn()
-  id!: string;
+  id!: number;
 
   @Column()
   name!: string;
 
-  @Column()
+  @Column({ nullable: true })
   createdAt!: Date;
 
   @Column()
