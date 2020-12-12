@@ -8,12 +8,9 @@ import { Setting } from './entity/Setting'
 
 createConnection({
   type: "postgres",
-  //host: NODE_ENV === 'production' ? DB_PRODUCTION_URL : 'localhost',
   port: 5432,
   url: DATABASE_URL,
-  // username: DB_USERNAME,
-  // password: DB_PASSWORD,
-  //database: DB_NAME_LOCAL,
+  database: DB_NAME_LOCAL,
   entities: [
     Setting,
   ],
