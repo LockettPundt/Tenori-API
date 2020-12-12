@@ -31,6 +31,8 @@ const schema = makeExecutableSchema({
 const server = new ApolloServer({
   schema,
   context: ({ req }) => req,
+  introspection: true,
+  playground: true,
 });
 
 server.listen({ port: PORT }).then(({ url }) => {
