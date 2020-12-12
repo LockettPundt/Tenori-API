@@ -1,11 +1,12 @@
 {
   "name": "tenori-api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": ".build/index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node src/index.ts",
-    "dev": "nodemon src/index.ts"
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.ts",
+    "build": "tsc"
   },
   "dependencies": {
     "apollo-server": "^2.19.0",
