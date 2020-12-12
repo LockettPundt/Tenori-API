@@ -1,4 +1,6 @@
 import { gql, IResolvers } from 'apollo-server'
+import { getConnection, getRepository } from "typeorm";
+import { Setting as SettingEntity } from '../entity/Setting'
 
 export const settingsType = gql`
 
@@ -14,49 +16,50 @@ export const settingsType = gql`
   }
   
   input SettingInput {
-    name: String
+    name: String!
     value: String!
   }
   
   type Query {
     getAllSettings: [Setting]
-    getSetting: Setting
+    getSetting(id: ID): Setting
   }
   
   type Mutation {
-    createNewSetting(setting: SettingInput): Setting!
+    createNewSetting(setting: SettingInput): CreateNewSettingResponse!
   }
 `
 
 export interface Setting {
-  id: string,
+  id?: string,
   name?: string,
   value: string,
-  createdAt: string,
-}
-
-const mockSetting: Setting = {
-  id: '1234',
-  name: 'mock setting',
-  value: '{json string}',
-  createdAt: '12/12/2020',
+  createdAt: Date,
 }
 
 export const settingsResolvers: IResolvers = {
   Query: {
     getAllSettings: async (obj, args, context) => {
-      // console.log(context, args)
-      return [mockSetting]
+      const connection = getConnection()
+      const allSettings: Setting[] | null = await connection.query('SELECT * FROM setting')
+      return allSettings
     },
-    getSetting: async (obj, args, context) => {
-      // console.log(context, args)
-      return mockSetting
+    getSetting: async (obj, { id }, context) => {
+      const settingRepository: any = getRepository(SettingEntity)
+      const result: Setting | null = await settingRepository.findOne(id)
+      return result
     }
   },
   Mutation: {
     createNewSetting: async (obj, { setting: { value, name } }, context) => {
-      mockSetting.value = value
-      return mockSetting
+      const settingRepository: any = getRepository(SettingEntity)
+      const newSetting: Setting = {
+        value,
+        name,
+        createdAt: new Date(),
+      }
+      const result = await settingRepository.save(newSetting)
+      return { setting: result }
     }
   },
 }
