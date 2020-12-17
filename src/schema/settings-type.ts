@@ -63,8 +63,6 @@ export const settingsResolvers: IResolvers = {
       const connection = getConnection()
       const allSettings: Setting[] | [] = await connection.query('SELECT * FROM setting')
       const randomIndex = Math.floor(Math.random() * allSettings.length)
-      console.log('here is the length of allSetttings', allSettings.length)
-      console.log('here is the random number', randomIndex)
       return allSettings[randomIndex]
     },
   },
