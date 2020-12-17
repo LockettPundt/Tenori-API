@@ -24,6 +24,7 @@ export const settingsType = gql`
   type Query {
     getAllSettings: [Setting]
     getSetting(id: ID): Setting
+    getRandomSetting: Setting
   }
   
   type Mutation {
@@ -57,7 +58,15 @@ export const settingsResolvers: IResolvers = {
       const settingRepository: any = getRepository(SettingEntity)
       const result: Setting | null = await settingRepository.findOne(id)
       return result
-    }
+    },
+    getRandomSetting: async (obj, args, context) => {
+      const connection = getConnection()
+      const allSettings: Setting[] | [] = await connection.query('SELECT * FROM setting')
+      const randomIndex = Math.floor(Math.random() * allSettings.length)
+      console.log('here is the length of allSetttings', allSettings.length)
+      console.log('here is the random number', randomIndex)
+      return allSettings[randomIndex]
+    },
   },
   Mutation: {
     createNewSetting: async (obj, { setting: { value, name } }, context) => {
@@ -80,6 +89,5 @@ export const settingsResolvers: IResolvers = {
       const [updatedSetting] = await connection.query('SELECT * FROM setting WHERE id = $1', [id])
       return updatedSetting
     },
-    // getrandomsetting =>
   },
 }
