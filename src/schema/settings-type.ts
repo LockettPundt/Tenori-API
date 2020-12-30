@@ -47,7 +47,51 @@ export interface Setting {
   updatedAt?: Date,
 }
 
-export const settingsResolvers: IResolvers = {
+export interface settingsResolvers extends IResolvers {
+  Query: {
+    getAllSettings: (
+      root: any,
+      args: {},
+      context: any,
+    ) => Promise<Setting[] | null>
+    getSetting: (
+      root: any,
+      args: { id: string },
+      context: any,
+    ) => Promise<Setting | null>
+    getRandomSetting: (
+      root: any,
+      args: {},
+      context: any,
+    ) => Promise<Setting | null>
+  }
+  Mutation: {
+    createNewSetting: (
+      root: any,
+      args: {
+        id: string,
+        setting: {
+          name: string,
+          value: string,
+        }
+      },
+      context: any,
+    ) => Promise<{ setting: Setting }>
+    updateSetting: (
+      root: any,
+      args: {
+        id: string,
+        setting: {
+          name: string,
+          value: string,
+        }
+      },
+      context: any,
+    ) => Promise<{ setting: Setting } | null>
+  }
+}
+
+export const settingsResolvers: settingsResolvers = {
   Query: {
     getAllSettings: async (obj, args, context) => {
       const connection = getConnection()
