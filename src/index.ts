@@ -11,6 +11,9 @@ createConnection({
   port: 5432,
   url: DATABASE_URL,
   database: DB_NAME_LOCAL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
   entities: [
     Setting,
   ],
