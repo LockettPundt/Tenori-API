@@ -1,7 +1,7 @@
 {
   "name": "tenori-api",
   "version": "1.0.0",
-  "main": ".build/index.js",
+  "main": ".build/src/index.js",
   "license": "MIT",
   "scripts": {
     "start": "node ./build/src/index.js",
