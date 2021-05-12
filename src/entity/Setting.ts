@@ -1,8 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, Timestamp } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, Timestamp } from "typeorm";
 
 
 @Entity()
-export class Setting {
+export class Setting extends BaseEntity {
 
   @PrimaryGeneratedColumn()
   id!: number;
