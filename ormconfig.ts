@@ -3,7 +3,7 @@ import { Setting } from './src/entity/Setting'
 
 const isDev = process.env.NODE_ENV === 'development'
 
-export default {
+export = {
    type: "postgres",
    port: 5432,
    url: isDev ? undefined : DATABASE_URL,
