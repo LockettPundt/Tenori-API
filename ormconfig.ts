@@ -16,10 +16,10 @@ export = {
       Setting
    ],
    migrations: [
-      "src/migration/**/*.ts"
+      "src/migration/**/*.{ts,js}"
    ],
    subscribers: [
-      "src/subscriber/**/*.ts"
+      "src/subscriber/**/*.{ts,js}"
    ],
    cli: {
       entitiesDir: "src/entity",
